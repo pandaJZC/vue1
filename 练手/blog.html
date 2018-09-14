@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>blog</title>
+		<link rel="stylesheet" href="../css/blog.css" />
+		<link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css" />
+		
+		<script type="text/javascript" src="../lib/bootstrap/js/bootstrap.min.js" ></script>
+		<script type="text/javascript" src="../js/jquery-1.9.1.js" ></script>
+		<script type="text/javascript" src="../js/vue.js" ></script>
+		
+	</head>
+	<body>
+		<div class="title">
+				<img src="../img/logo_blue.png" />
+				<ul class="navBar">
+					<li>首页</li>
+					<li>首页</li>
+					<li>首页</li>
+					<li>首页</li>
+					<li>首页</li>
+					<li>首页</li>
+					<li>Play框架手册</li>
+					<li>Play框架手册</li>
+					<li>关于</li>
+				</ul>
+		</div>
+		
+		<div class="container" >
+		  <div class="row">
+		    <div id="content" class="col-lg-8" >
+		      <ul class="content_list">
+		      	<li v-for="item in list" class="">
+		      		<div class="row">
+			      		<div class="col-2">
+			      			<img :src="item.img" />
+			      		</div>
+			      		<div class="col-10">
+			      			<h2>{{item.title}}</h2>
+			      			<p class="summary">{{item.summary}}</p>
+			      			<p class="bottom">
+			      				<i class="fa fa-calendar" aria-hidden="true"></i><span>{{item.date}}</span>
+			      				<i class="fa fa-comments" aria-hidden="true"></i><span>{{item.comment}}</span>
+			      				<i class="fa fa-tags" aria-hidden="true"></i><span>{{item.label}}</span>
+			      			</p>
+			      		</div>
+		      		</div>
+		      		
+		      	</li>
+		      </ul>
+		    </div>
+		    <div class="col-lg-4" style="background-color: yellow;">
+		      
+		    </div>
+		  </div>
+		</div>
+		
+	</body>
+	<script type="text/javascript">
+		new Vue({
+			el:'#content',
+			data:{
+				list:[
+					{
+						'img':'../img/sa.png',
+						'title':'Nuxt 中的 cookie 使用',
+						'summary':'cookie 只有客户端设置才有效。',
+						'date':'9月8日',
+						'comment':'没有评论',
+						'label':'vue'
+					},
+					{
+						'img':'../img/sa.png',
+						'title':'Nuxt 中的 cookie 使用',
+						'summary':'有时候不同的系统只是数据源和一些配置信息不一样，代码其实可以用同一套。比如“小米科技财务管理系统”和“腾讯科技财务管理系统”，这两个系统只是公司不同，业务需要其实是一样的。这种情况下，可以只开发一个项目来同时支持多个不同的系统。下面我们来聊一聊怎样将一个项目配置成多个系统。',
+						'date':'9月8日',
+						'comment':'没有评论',
+						'label':'vue'
+					},
+					{
+						'img':'../img/sa.png',
+						'title':'Nuxt 中的 cookie 使用',
+						'summary':'cookie 只有客户端设置才有效。',
+						'date':'9月8日',
+						'comment':'没有评论',
+						'label':'vue'
+					},
+				]
+			}
+		})
+	</script>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>双元E+</title>
+		<link rel="stylesheet" href="../css/e.css" />
+		<link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+		<script type="text/javascript" src="../js/jquery-1.9.1.js" ></script>
+		<script type="text/javascript" src="../js/vue.js" ></script>
+	</head>
+	<body>
+		
+		<!--职责
+			1、添加职责；
+			2、点赞与取消赞；
+		-->
+		<div id="app">
+			<h3>添加职责</h3>
+			<input @keyup.13='addZhize' v-model="addzz" type="text" placeholder="输入职责后，按回车确认" />
+			<br />
+			<h3>职责标签</h3>
+			<div class="zzList">
+				<div @dblclick="openrw(item,index)" class="zhizeName" v-for="(item,index) in zhize">
+					<span>{{item.name}}</span>
+					<br />
+					<div class="handIcon"> 
+						<i @click="del(index)" v-show="item.byme" class="fa fa-trash-o" aria-hidden="true"></i>
+						<i @click="like(item)" :class="{'i':item.tag}" class="fa fa-thumbs-up" aria-hidden="true"></i>
+						<span>{{item.num}}</span>
+					</div>
+					
+				</div>
+			</div>
+			<!--任务-->
+			<div class="taskList" v-show="isShow">
+				<div class="closeRw" @click="isShow=false">X</div>
+				<h1>{{zhizeName}}</h1>
+				<h3>添加任务</h3>
+				<input @keyup.13='addTask()' v-model="addrw" type="text" placeholder="输入任务后，按回车确认" />
+				<br />
+				<h3>任务标签</h3>
+				<div class="zhizeName" v-for="(item,index) in taskList">
+					<span>{{item.name}}</span>
+					<br />
+					<div class="handIcon"> 
+						<i @click="delrw(index)" v-show="item.byme" class="fa fa-trash-o" aria-hidden="true"></i>
+						<i @click="like(item)" :class="{'i':item.tag}" class="fa fa-thumbs-up" aria-hidden="true"></i>
+						<span>{{item.num}}</span>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		new Vue({
+			el:'#app',
+			data:{
+				zhize:[
+					{
+						'name':'勘察场地0',
+						'num':3,
+						'task':[
+							{'name':'领取勘察报告0','num':3},
+							{'name':'领取勘察报告1','num':0},
+							{'name':'领取勘察报告2','num':1},
+							{'name':'领取勘察报告3','num':0}
+						],
+				
+					},
+					{
+						'name':'勘察场地1',
+						'num':0,
+						'task':[
+							{'name':'定位经纬0','num':1},
+							{'name':'定位经纬1','num':2},
+							{'name':'定位经纬2','num':1},
+							{'name':'定位经纬3','num':3}
+						],
+					},
+					{
+						'name':'勘察场地2',
+						'num':1,
+						'task':[
+							{'name':'清点货物类型0','num':1},
+							{'name':'清点货物类型1','num':2},
+							{'name':'清点货物类型2','num':1},
+							{'name':'清点货物类型3','num':3}
+						],
+					},
+					{
+						'name':'勘察场地3',
+						'num':0,
+						'task':[
+							{'name':'检查供电0','num':1},
+							{'name':'检查供电1','num':2},
+							{'name':'检查供电2','num':1},
+							{'name':'检查供电3','num':3}
+						],
+					}
+				],
+				//task:[{'name':'领取勘察报告0','num':3},{'name':'领取勘察报告1','num':0},{'name':'领取勘察报告2','num':1},{'name':'领取勘察报告3','num':0}],
+				zhizeName:'',
+				taskList:[],
+				curIndex:'',
+				
+				addzz:'',
+				addrw:'',
+				isShow:false
+			},
+			methods:{
+				//添加职责
+				addZhize:function(){
+					this.zhize.push({'name':this.addzz,'num':0,'byme':1,'task':[]});
+					this.addzz='';
+				},
+				
+				//点赞
+				like:function(val){
+					if(val.tag){
+						val.num--;
+						val.tag=0;
+					}else{
+						val.num++;
+						val.tag=1;
+					}
+					
+				},
+				
+				//双击职责打开任务
+				openrw:function(val,index){
+					this.zhizeName=val.name;
+					this.curIndex=index;
+					this.taskList=val.task;
+					this.isShow=true;
+				},
+				
+				
+				
+				//删除职责（只能删除由我添加的）
+				del:function(val){
+					this.zhize.splice(val,1)
+				},
+				
+				//////////////////任务/////////////////////
+				//添加任务
+				addTask:function(){
+					this.zhize[this.curIndex].task.push({'name':this.addrw,'num':0,'byme':1});
+					this.addrw='';
+				},
+				//删除任务（只能删除由我添加的）
+				delrw:function(val){
+					this.zhize[this.curIndex].task.splice(val,1)
+				}
+			},
+			mounted: function() {
+				var _this = this;
+				this.zhize.map(function(item) {
+					_this.$set(item, 'tag', 0);
+					_this.$set(item, 'byme', 0);
+				});
+			}
+		})
+	</script>
+</html>

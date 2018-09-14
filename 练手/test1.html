@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>vue入门实例</title>
+		<!--<link rel="stylesheet" type="text/css" href="../css/tab.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/buy.css"/>-->
+		<link rel="stylesheet" type="text/css" href="../css/todolist.css" />
+	</head>
+
+	<body>
+
+		<div id="app" hidden="hidden">
+			<p>{{ message }}</p>
+			<input v-model="message" />
+		</div>
+
+		<div id="tab" hidden="hidden">
+			<div class="tab-tit">
+				<a @click="curId=0" :class="{'cur':curId===0}">html</a>
+				<a @click="curId=1" :class="{'cur':curId===1}">css</a>
+				<a @click="curId=2" :class="{'cur':curId===2}">js</a>
+				<a @click="curId=3" :class="{'cur':curId===3}">sass</a>
+			</div>
+			<div class="tab-con">
+				<div v-show="curId===0">
+					html<br />
+				</div>
+				<div v-show="curId===1">
+					css<br />
+				</div>
+				<div v-show="curId===2">
+					js<br />
+				</div>
+				<div v-show="curId===3">
+					sass<br />
+				</div>
+			</div>
+		</div>
+
+		<div hidden="hidden" class="page-shopping-cart" id="shopping-cart">
+			<h4 class="cart-title">购物清单</h4>
+			<div class="cart-product-title clearfix">
+				<div class="td-check fl"><span class="check-span fl check-all" :class="{'check-true':isSelectAll}"></span>全选</div>
+				<div class="td-product fl">商品</div>
+				<div class="td-num fl">数量</div>
+				<div class="td-price fl">单价(元)</div>
+				<div class="td-total fl">金额(元)</div>
+				<div class="td-do fl">操作</div>
+			</div>
+			<div class="cart-product clearfix">
+				<table>
+					<tbody>
+						<tr v-for="item in productList">
+							<td class="td-check"><span class="check-span" @click="item.select=!item.select" :class="{'check-true':item.select}"></span></td>
+							<td class="td-product"><img :src="item.pro_img" width="98" height="98">
+								<div class="product-info">
+									<h6>{{ item.pro_name }}</h6>
+									<p>品牌：{{ item.pro_brand }}&nbsp;&nbsp;产地：{{ item.pro_place }}</p>
+									<p>规格/纯度:{{ item.pro_purity }}&nbsp;&nbsp;起定量：{{ item.pro_min }}</p>
+									<p>配送仓储：{{ item.pro_depot }}</p>
+								</div>
+								<div class="clearfix"></div>
+							</td>
+							<td class="td-num">
+								<div class="product-num">
+									<a @click="item.pro_num--" href="javascript:;" class="num-reduce num-do fl"><span></span></a>
+									<input v-model="item.pro_num" type="text" class="num-input">
+									<a @click="item.pro_num++" href="javascript:;" class="num-add num-do fr"><span></span></a>
+								</div>
+							</td>
+							<td class="td-price">
+								<p class="red-text">￥<span class="price-text">{{item.pro_price.toFixed(2)}}</span></p>
+							</td>
+							<td class="td-total">
+								<p class="red-text">￥<span class="total-text">{{item.pro_price*item.pro_num}}</span>.00</p>
+							</td>
+							<td class="td-do">
+								<a href="javascript:;" class="product-delect">删除</a>
+							</td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+			<div class="cart-product-info">
+				<a class="delect-product" href="javascript:;"><span></span>删除所选商品</a>
+				<a class="keep-shopping" href="#"><span></span>继续购物</a>
+				<a class="btn-buy fr" href="javascript:;">去结算</a>
+				<p class="fr product-total">￥<span>1600</span></p>
+				<p class="fr check-num"><span>2</span>件商品总计（不含运费）：</p>
+			</div>
+			<div class="cart-worder clearfix">
+				<a href="javascript:;" class="choose-worder fl"><span></span>绑定跟单员</a>
+				<div class="worker-info fl">
+				</div>
+			</div>
+		</div>
+
+		<div id="todolist" class="main">
+			<h2>小目标列表</h2>
+			<div class="list">
+				<h3>添加小目标</h3>
+				<input @keyup.13='addList' v-model="addText" type="text" class="text-keyword" placeholder="输入小目标后，按回车确认" />
+				<p>共有{{prolist.length}}个目标，{{noend==0?"全部完成了":'已完成'+(prolist.length-noend)+'，还有'+noend+'条未完成'}}</p>
+				<p>
+					<input @click="chooseList(1)" type="radio" name="chooseType" checked="true" /><label>所有目标</label>
+					<input @click="chooseList(2)" type="radio" name="chooseType" /><label>已完成目标</label>
+					<input @click="chooseList(3)" type="radio" name="chooseType" /><label>未完成目标</label>
+				</p>
+			</div>
+			<ul>
+				<li :class="{'eidting':curIndex===index}" class="li1" v-for="(item,index) in newList">
+					<div>
+						<span @click="changeType(index)" :class="{'status-end':item.status}" class="status-span"></span>
+						<span @dblclick="curIndex=index">{{item.name}}</span>
+						<span class="close" @click="delectList(item)">X</span>
+						
+					</div>
+					<input v-focus type="text" class="text2" v-model='item.name' @keyup.esc='cancelEdit(item)' @blur='edited' @focus='editBefore(item.name)' @keyup.enter='edited' />
+
+				</li>
+			</ul>
+		</div>
+		<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+	</body>
+
+	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="../js/vue.js"></script>
+
+	<script type="text/javascript">
+		new Vue({
+			el: "#todolist",
+			
+			data: {
+				addText: '',
+				prolist: [{
+						name: "HTML5",
+						status: false
+					},
+					{
+						name: "CSS3",
+						status: false
+					},
+					{
+						name: "vue",
+						status: false
+					},
+					{
+						name: "react",
+						status: false
+					}
+				],
+				newList: [],
+				curIndex:'',
+				beforeEditText:'',
+				curType:0,
+			},
+			computed: {
+				//计算属性，返回未完成目标的条数，就是数组里面status=false的条数
+				noend: function() {
+					return this.prolist.filter(function(val) {
+						return !val.status
+					}).length;
+				}
+			},
+			methods: {
+				addList: function() {
+					this.prolist.push({
+						name: this.addText,
+						status: false
+					});
+					this.addText = '';
+				},
+
+				chooseList(type) {
+					//type=1时，选择所有目标
+					//type=2时，选择所有已完成目标
+					//type=3时，选择所有未完成目标
+					this.curType=type;
+					switch(type) {
+						case 1:
+							this.newList = this.prolist;
+							break;
+						case 2:
+							this.newList = this.prolist.filter(function(val) {
+								return val.status;
+							});
+							break;
+						case 3:
+							this.newList = this.prolist.filter(function(val) {
+								return !val.status;
+							});
+							break;
+					}
+				},
+				 /*改变单条数据的完成状态*/
+	            changeType(index){
+	                this.newList[index].status=!this.newList[index].status;
+	                //更新数据
+	                this.chooseList(this.curType);
+	            },
+				delectList(list) {
+					var index=this.prolist.indexOf(list);
+					this.prolist.splice(index, 1);
+					this.chooseList(this.curType);
+				},
+				//修改前,focus
+		        editBefore(name){
+		        	this.beforeEditText=name;
+		        },
+		        //修改完成后
+		        edited(){
+		        	this.curIndex='';
+		        },
+		        //取消修改，esc
+		        cancelEdit(val){
+		        	val.name=this.beforeEditText;
+		        	this.curIndex='';
+		        }
+
+			},
+			mounted() {
+				//初始化，把prolist赋值给newList。默认显示所有目标
+				this.newList = this.prolist;
+			},
+			directives: {
+			  focus: {
+			    // 指令的定义
+			    update: function (el) {
+			      el.focus();
+			    }
+			  }
+			}
+		});
+
+		new Vue({
+			el: '#shopping-cart',
+			data: {
+				productList: [{
+						'pro_name': '【斯文】甘油 | 丙三醇', //产品名称
+						'pro_brand': 'skc', //品牌名称
+						'pro_place': '韩国', //产地
+						'pro_purity': '99.7%', //规格
+						'pro_min': "215千克", //最小起订量
+						'pro_depot': '上海仓海仓储', //所在仓库
+						'pro_num': 3, //数量
+						'pro_img': '../img/sa.png', //图片链接
+						'pro_price': 600 //单价
+					},
+					{
+						'pro_name': '【斯文】甘油 | 丙三醇', //产品名称
+						'pro_brand': 'skc', //品牌名称
+						'pro_place': '韩国', //产地
+						'pro_purity': '99.7%', //规格
+						'pro_min': "215千克", //最小起订量
+						'pro_depot': '上海仓海仓储', //所在仓库
+						'pro_num': 1, //数量
+						'pro_img': '../img/sa.png', //图片链接
+						'pro_price': 800 //单价
+					}
+				]
+			},
+			computed: {
+				///检查是否全选
+				isSelectAll: function() {
+					return this.productList.every(function(val) {
+						return val.select;
+					})
+				},
+				///获取总价和产品总件数
+				getTotal: function() {
+					var _proList = this.productList.filter(function(val) {
+							return val.select;
+						}),
+						totalPrice = 0;
+
+				}
+
+			},
+			methods: {
+
+			},
+			mounted: function() {
+				var _this = this;
+				this.productList.map(function(item) {
+					_this.$set(item, 'select', true)
+				});
+
+			}
+		})
+
+		new Vue({
+			el: "#tab",
+			data: {
+				curId: 0
+			}
+
+		})
+
+		new Vue({
+			el: "#app",
+			data: {
+				message: 'hello vue!'
+			}
+		})
+	</script>
+
+</html>

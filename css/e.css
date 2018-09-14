@@ -1,0 +1,46 @@
+body{
+    font-family:"Microsoft YaHei";
+}
+#app{
+	width: 800px;
+	height: 800px;
+	margin:0 auto;
+	background-color: pink;
+}
+#app .zzList{
+	display: flex;
+	flex-wrap:wrap ;
+}
+#app .zhizeName{
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: white;
+	margin: 20px;
+	border-radius: 15px;
+}
+#app .zhizeName .handIcon{
+	float: right;
+}
+/*  :class  */
+.i{
+	color:red;
+}
+.del{
+	display: block;
+}
+/*任务*/
+#app .taskList{
+	margin: 20px;
+	background-color: lightgoldenrodyellow;
+	position: relative;
+}
+#app .taskList .closeRw{
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+
+
+
+

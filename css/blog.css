@@ -1,0 +1,56 @@
+li{
+	list-style: none;
+}
+/*标题*/
+.title{
+	width: 100%;
+	height: 100px;
+	display: flex;
+	justify-content:center;
+	align-items:center;
+    box-shadow: 0 1px 3px #ddd;
+}
+
+.title>img{
+	height: 45%;
+	display: block;
+	pointer-events: ;
+	cursor: pointer;
+}
+
+.title .navBar{
+	padding: 0;
+	margin: 0 3%;
+	height: 100%;
+}
+.title li{
+	height: 100%;
+	display: inline-block;
+	line-height: 100px;
+	font-size: 15px;
+	padding: 0 30px;
+}
+.title li:hover{
+	color: #0DA3E2;
+	border-top: 5px solid #0DA3E2;
+	line-height: 90px;
+	cursor: pointer;
+}
+/*内容左侧*/
+.content_list li{
+	border-bottom: 2px solid gainsboro;
+	padding: 50px 0;
+}
+
+.content_list li .summary{
+	color: #666565;
+	line-height: 2em;
+}
+.content_list li .bottom i{
+	color: #0DA3E2;
+}
+
+.content_list li .bottom span{
+	margin-right: 30px;
+	color: #333333;
+}
